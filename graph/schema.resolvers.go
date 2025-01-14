@@ -26,9 +26,14 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 func (r *mutationResolver) CreatePet(ctx context.Context, input model.NewPet) (*model.Pet, error) {
 	data := pets.NewPet{
 		Name:    input.Name,
-		Type:    *input.Type,
+		Type:    "",
 		OwnerId: int(input.OwnerID),
 	}
+
+	if input.Type != nil {
+		data.Type = *input.Type
+	}
+
 	id, err := r.PetsService.Create(data)
 	if err != nil {
 		return nil, err
