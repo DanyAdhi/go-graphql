@@ -2,6 +2,7 @@ package pets
 
 type Service interface {
 	GetAll() (*[]Pets, error)
+	GetOne(id int32) (*Pets, error)
 }
 
 type service struct {
@@ -18,4 +19,13 @@ func (s service) GetAll() (*[]Pets, error) {
 		return nil, err
 	}
 	return data, nil
+}
+
+func (s service) GetOne(id int32) (*Pets, error) {
+	pet, err := s.repo.GetOne(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return pet, nil
 }

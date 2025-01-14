@@ -7,6 +7,7 @@ import (
 
 type Repository interface {
 	GetAll() (*[]Pets, error)
+	GetOne(id int32) (*Pets, error)
 }
 
 type repository struct {
@@ -42,4 +43,20 @@ func (r repository) GetAll() (*[]Pets, error) {
 	}
 
 	return &pets, nil
+}
+
+func (r repository) GetOne(id int32) (*Pets, error) {
+	row := r.db.QueryRow(
+		`SELECT p.id, p."name", p.type, p."ownerId", o."name" as "ownerName"  FROM pet p 
+			LEFT JOIN "owner" o on o.id = p."ownerId" WHERE p.id = $1`,
+		id,
+	)
+
+	var data Pets
+	err := row.Scan(&data.ID, &data.Name, &data.Type, &data.OwnerId, &data.OwnerName)
+	if err != nil {
+		return nil, err
+	}
+
+	return &data, nil
 }

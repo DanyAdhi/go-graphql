@@ -48,6 +48,24 @@ func (r *queryResolver) Pets(ctx context.Context) ([]*model.Pet, error) {
 	return result, nil
 }
 
+// Pet is the resolver for the pet field.
+func (r *queryResolver) Pet(ctx context.Context, id int32) (*model.Pet, error) {
+	pet, err := r.PetsService.GetOne(id)
+	if err != nil {
+		return nil, err
+	}
+
+	result := &model.Pet{
+		ID:        pet.ID,
+		Name:      pet.Name,
+		Type:      pet.Type,
+		OwnerID:   int32(pet.OwnerId),
+		OwnerName: pet.OwnerName,
+	}
+
+	return result, nil
+}
+
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
