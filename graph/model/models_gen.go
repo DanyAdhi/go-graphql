@@ -5,6 +5,12 @@ package model
 type Mutation struct {
 }
 
+type NewPet struct {
+	Name    string  `json:"name"`
+	Type    *string `json:"type,omitempty"`
+	OwnerID int32   `json:"ownerId"`
+}
+
 type NewTodo struct {
 	Text   string `json:"text"`
 	UserID string `json:"userId"`

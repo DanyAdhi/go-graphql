@@ -7,3 +7,9 @@ type Pets struct {
 	OwnerId   int    `json:"ownerId" db:"ownerId"`
 	OwnerName string `json:"ownerName" db:"ownerName"`
 }
+
+type NewPet struct {
+	Name    string `json:"name"`
+	Type    string `json:"type,omitempty"`
+	OwnerId int    `json:"ownerId"`
+}

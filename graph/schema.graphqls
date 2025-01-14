@@ -13,4 +13,5 @@ type Query {
 type Mutation {
   createTodo(input: NewTodo!): Todo!
   createUser(input: NewUser!): User!
+  createPet(input: NewPet!): Pet!
 }

@@ -8,6 +8,7 @@ import (
 type Repository interface {
 	GetAll() (*[]Pets, error)
 	GetOne(id int32) (*Pets, error)
+	Create(input NewPet) (int, error)
 }
 
 type repository struct {
@@ -24,7 +25,7 @@ func (r repository) GetAll() (*[]Pets, error) {
 			left join "owner" o on o.id = p."ownerId" `,
 	)
 	if err != nil {
-		log.Printf("Error get total record articles. %v", err)
+		log.Printf("Error get pets. %v", err)
 		return nil, err
 	}
 	defer row.Close()
@@ -59,4 +60,18 @@ func (r repository) GetOne(id int32) (*Pets, error) {
 	}
 
 	return &data, nil
+}
+
+func (r repository) Create(input NewPet) (int, error) {
+	var id int
+	err := r.db.QueryRow(
+		`INSERT INTO pet (name, type, "ownerId") VALUES ($1, $2, $3) RETURNING id`,
+		input.Name,
+		input.Type,
+		input.OwnerId,
+	).Scan(&id)
+	if err != nil {
+		return 0, err
+	}
+	return id, nil
 }

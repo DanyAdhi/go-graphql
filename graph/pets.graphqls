@@ -5,3 +5,9 @@ type Pet {
   ownerId: Int!
   ownerName: String!
 }
+
+input NewPet {
+  name: String!
+  type: String
+  ownerId: Int!
+}

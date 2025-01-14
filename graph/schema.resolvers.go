@@ -9,6 +9,7 @@ import (
 	"fmt"
 
 	"github.com/danyadhi/go-graphql/graph/model"
+	"github.com/danyadhi/go-graphql/internal/pets"
 )
 
 // CreateTodo is the resolver for the createTodo field.
@@ -19,6 +20,28 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
 	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
+}
+
+// CreatePet is the resolver for the createPet field.
+func (r *mutationResolver) CreatePet(ctx context.Context, input model.NewPet) (*model.Pet, error) {
+	data := pets.NewPet{
+		Name:    input.Name,
+		Type:    *input.Type,
+		OwnerId: int(input.OwnerID),
+	}
+	id, err := r.PetsService.Create(data)
+	if err != nil {
+		return nil, err
+	}
+
+	result := &model.Pet{
+		ID:      int32(id),
+		Name:    data.Name,
+		Type:    data.Type,
+		OwnerID: int32(data.OwnerId),
+	}
+
+	return result, nil
 }
 
 // Todos is the resolver for the todos field.
