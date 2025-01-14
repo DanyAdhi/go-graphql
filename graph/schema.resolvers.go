@@ -28,25 +28,24 @@ func (r *queryResolver) Todos(ctx context.Context) ([]*model.Todo, error) {
 
 // Pets is the resolver for the pets field.
 func (r *queryResolver) Pets(ctx context.Context) ([]*model.Pet, error) {
-	panic(fmt.Errorf("not implemented: Todos - todos"))
-	// pets, err := r.Pets.GetAll()
-	// if err != nil {
-	// 	return nil, err
-	// }
+	pets, err := r.PetsService.GetAll()
+	if err != nil {
+		return nil, err
+	}
 
-	// var result []*model.Pet
-	// for _, pet := range *pets {
+	var result []*model.Pet
+	for _, pet := range *pets {
 
-	// 	result = append(result, &model.Pet{
-	// 		ID:        pet.ID,
-	// 		Name:      pet.Name,
-	// 		Type:      pet.Type,
-	// 		OwnerID:   int32(pet.OwnerId),
-	// 		OwnerName: pet.OwnerName,
-	// 	})
-	// }
+		result = append(result, &model.Pet{
+			ID:        pet.ID,
+			Name:      pet.Name,
+			Type:      pet.Type,
+			OwnerID:   int32(pet.OwnerId),
+			OwnerName: pet.OwnerName,
+		})
+	}
 
-	// return result, nil
+	return result, nil
 }
 
 // Mutation returns MutationResolver implementation.

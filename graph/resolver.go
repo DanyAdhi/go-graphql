@@ -10,6 +10,6 @@ import (
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	todos []*model.Todo
-	Pets  pets.Service
+	todos       []*model.Todo
+	PetsService pets.Service
 }

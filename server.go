@@ -40,7 +40,7 @@ func main() {
 	}
 
 	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
-		Pets: petsService,
+		PetsService: petsService,
 	}}))
 
 	srv.AddTransport(transport.Options{})
