@@ -153,3 +153,13 @@ models:
     model:
       - github.com/99designs/gqlgen/graphql.Int
       - github.com/99designs/gqlgen/graphql.Int64
+  # Time:
+  #   model:
+  #     - time.Time
+  # Float4:
+  #   model:
+  #     - float32
+  # Float8:
+  #   model:
+  #     - float64
+ 

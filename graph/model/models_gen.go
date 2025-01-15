@@ -2,6 +2,10 @@
 
 package model
 
+import (
+	"time"
+)
+
 type Mutation struct {
 }
 
@@ -18,6 +22,61 @@ type NewTodo struct {
 
 type NewUser struct {
 	Name string `json:"name"`
+}
+
+type Orders struct {
+	PurchaseRequestNumber     string    `json:"purchaseRequestNumber"`
+	PurchaseOrderNumber       string    `json:"purchaseOrderNumber"`
+	SalesOrderNumber          string    `json:"salesOrderNumber"`
+	BastNumber                string    `json:"bastNumber"`
+	InvoiceNumber             string    `json:"invoiceNumber"`
+	StatusID                  int32     `json:"statusId"`
+	ProjectType               string    `json:"projectType"`
+	InvoiceDate               *time.Time `json:"invoiceDate"`
+	DueAt                     *time.Time `json:"dueAt"`
+	ReceivedAtLatest          *time.Time `json:"receivedAtLatest"`
+	IsPreOrder                bool      `json:"isPreOrder"`
+	IsRfq                     bool      `json:"isRfq"`
+	IsInvoiceFinancing        bool      `json:"isInvoiceFinancing"`
+	IsTermin                  bool      `json:"isTermin"`
+	ShippingType              string    `json:"shippingType"`
+	ShippingAgency            string    `json:"shippingAgency"`
+	ShippingMethod            string    `json:"shippingMethod"`
+	ShippingAwb               string    `json:"shippingAwb"`
+	ShippingCost              float64   `json:"shippingCost"`
+	ShippingDiscount          float64   `json:"shippingDiscount"`
+	PaymentType               string    `json:"paymentType"`
+	PaymentID                 string    `json:"paymentId"`
+	PaymentCode               string    `json:"paymentCode"`
+	PaymentBankName           string    `json:"paymentBankName"`
+	PaymentGateway            string    `json:"paymentGateway"`
+	PaymentMethodFee          float64   `json:"paymentMethodFee"`
+	PaymentMethodPpnAmount    float64   `json:"paymentMethodPpnAmount"`
+	PaymentMethodPphAmount    float64   `json:"paymentMethodPphAmount"`
+	PaymentAccountNumber      string    `json:"paymentAccountNumber"`
+	PaymentURL                string    `json:"paymentUrl"`
+	PaymentExpiredAt          *time.Time `json:"paymentExpiredAt"`
+	TotalAmount               float64   `json:"totalAmount"`
+	TotalGoodsAmount          float64   `json:"totalGoodsAmount"`
+	TotalServicesAmount       float64   `json:"totalServicesAmount"`
+	Discount                  float64   `json:"discount"`
+	FinalAmount               float64   `json:"finalAmount"`
+	SellerIncome              float64   `json:"sellerIncome"`
+	PpnBy                     string    `json:"ppnBy"`
+	PpnTotal                  float64   `json:"ppnTotal"`
+	PpnGoodsTotal             float64   `json:"ppnGoodsTotal"`
+	PpnServicesTotal          float64   `json:"ppnServicesTotal"`
+	PpnShippingTotal          float64   `json:"ppnShippingTotal"`
+	PphTotal                  float64   `json:"pphTotal"`
+	PphGoodsTotal             float64   `json:"pphGoodsTotal"`
+	PphServicesTotal          float64   `json:"pphServicesTotal"`
+	PphShippingTotal          float64   `json:"pphShippingTotal"`
+	RateTotalAmount           float64   `json:"rateTotalAmount"`
+	RateTotalAmountPercentage float64   `json:"rateTotalAmountPercentage"`
+	RateBaseAmount            float64   `json:"rateBaseAmount"`
+	RatePpnAmount             float64   `json:"ratePpnAmount"`
+	RatePphAmount             float64   `json:"ratePphAmount"`
+	PurchaseRequestDate       time.Time `json:"purchaseRequestDate"`
 }
 
 type Pet struct {

@@ -13,6 +13,7 @@ import (
 	"github.com/danyadhi/go-graphql/config"
 	"github.com/danyadhi/go-graphql/config/db"
 	"github.com/danyadhi/go-graphql/graph"
+	"github.com/danyadhi/go-graphql/internal/orders"
 	"github.com/danyadhi/go-graphql/internal/pets"
 	_ "github.com/lib/pq" // Driver PostgreSQL
 	"github.com/vektah/gqlparser/v2/ast"
@@ -29,10 +30,12 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
-	defer database.Close()
 
 	petRepo := pets.NewRepository(database)
 	petsService := pets.NewService(petRepo)
+
+	orderRepo := orders.NewRepository(database)
+	orderService := orders.NewService(orderRepo)
 
 	port := os.Getenv("PORT")
 	if port == "" {
@@ -40,7 +43,8 @@ func main() {
 	}
 
 	srv := handler.New(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{
-		PetsService: petsService,
+		PetsService:   petsService,
+		OrdersService: orderService,
 	}}))
 
 	srv.AddTransport(transport.Options{})

@@ -1,16 +1,18 @@
 package db
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 
 	"github.com/danyadhi/go-graphql/config"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-func Connect() (*sql.DB, error) {
+func Connect() (*gorm.DB, error) {
 	dbConnStr := fmt.Sprintf(
-		`user=%s password=%s dbname=%s port=%s sslmode=%s`,
+		`host=%s user=%s password=%s dbname=%s port=%s sslmode=%s`,
+		config.AppConfig.DB_HOST,
 		config.AppConfig.DB_USER,
 		config.AppConfig.DB_PASSWORD,
 		config.AppConfig.DB_NAME,
@@ -18,16 +20,10 @@ func Connect() (*sql.DB, error) {
 		config.AppConfig.DB_SSLMODE,
 	)
 
-	db, err := sql.Open("postgres", dbConnStr)
+	db, err := gorm.Open(postgres.Open(dbConnStr), &gorm.Config{})
 	if err != nil {
 		log.Printf("Failed to connect to database: %v", err)
 		return nil, err
-	}
-
-	// Pastikan koneksi berhasil
-	err = db.Ping()
-	if err != nil {
-		return nil, fmt.Errorf("failed to ping database: %v", err)
 	}
 
 	log.Println("Database connection established")

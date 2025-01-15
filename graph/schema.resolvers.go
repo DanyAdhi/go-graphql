@@ -6,10 +6,12 @@ package graph
 
 import (
 	"context"
+	"errors"
 	"fmt"
 
 	"github.com/danyadhi/go-graphql/graph/model"
 	"github.com/danyadhi/go-graphql/internal/pets"
+	"github.com/danyadhi/go-graphql/utils"
 )
 
 // CreateTodo is the resolver for the createTodo field.
@@ -89,6 +91,81 @@ func (r *queryResolver) Pet(ctx context.Context, id int32) (*model.Pet, error) {
 		Type:      pet.Type,
 		OwnerID:   int32(pet.OwnerId),
 		OwnerName: pet.OwnerName,
+	}
+
+	return result, nil
+}
+
+// Orders is the resolver for the orders field.
+func (r *queryResolver) Orders(ctx context.Context) ([]*model.Orders, error) {
+	requestFields := utils.GetRequestedFields(ctx)
+	if len(requestFields) == 0 {
+		return nil, errors.New(`no fields request`)
+	}
+
+	orders, err := r.OrdersService.GetAll(requestFields)
+	if err != nil {
+		return nil, err
+	}
+
+	var result []*model.Orders
+
+	for _, order := range *orders {
+
+		result = append(result, &model.Orders{
+			PurchaseRequestNumber:     order.PurchaseRequestNumber.String,
+			PurchaseOrderNumber:       order.PurchaseOrderNumber.String,
+			SalesOrderNumber:          order.SalesOrderNumber.String,
+			BastNumber:                order.BastNumber.String,
+			InvoiceNumber:             order.InvoiceNumber.String,
+			StatusID:                  order.StatusID,
+			ProjectType:               order.ProjectType,
+			InvoiceDate:               order.InvoiceDate,
+			DueAt:                     order.DueAt,
+			ReceivedAtLatest:          order.ReceivedAtLatest,
+			IsPreOrder:                order.IsPreOrder,
+			IsRfq:                     order.IsRfq,
+			IsInvoiceFinancing:        order.IsInvoiceFinancing,
+			IsTermin:                  order.IsTermin,
+			ShippingType:              order.ShippingType,
+			ShippingAgency:            order.ShippingAgency.String,
+			ShippingMethod:            order.ShippingMethod.String,
+			ShippingAwb:               order.ShippingAwb.String,
+			ShippingCost:              order.ShippingCost,
+			ShippingDiscount:          order.ShippingDiscount,
+			PaymentType:               order.PaymentType,
+			PaymentID:                 order.PaymentID.String,
+			PaymentCode:               order.PaymentCode.String,
+			PaymentBankName:           order.PaymentBankName.String,
+			PaymentGateway:            order.PaymentGateway.String,
+			PaymentMethodFee:          order.PaymentMethodFee,
+			PaymentMethodPpnAmount:    order.PaymentMethodPpnAmount,
+			PaymentMethodPphAmount:    order.PaymentMethodPphAmount,
+			PaymentAccountNumber:      order.PaymentAccountNumber.String,
+			PaymentURL:                order.PaymentURL.String,
+			PaymentExpiredAt:          order.PaymentExpiredAt,
+			TotalAmount:               order.TotalAmount,
+			TotalGoodsAmount:          order.TotalGoodsAmount,
+			TotalServicesAmount:       order.TotalServicesAmount,
+			Discount:                  order.Discount,
+			FinalAmount:               order.FinalAmount,
+			SellerIncome:              order.SellerIncome,
+			PpnBy:                     order.PpnBy.String,
+			PpnTotal:                  order.PpnTotal,
+			PpnGoodsTotal:             order.PpnGoodsTotal,
+			PpnServicesTotal:          order.PpnServicesTotal,
+			PpnShippingTotal:          order.PpnShippingTotal,
+			PphTotal:                  order.PphTotal,
+			PphGoodsTotal:             order.PphGoodsTotal,
+			PphServicesTotal:          order.PphServicesTotal,
+			PphShippingTotal:          order.PphShippingTotal,
+			RateTotalAmount:           order.RateTotalAmount,
+			RateTotalAmountPercentage: order.RateTotalAmountPercentage,
+			RateBaseAmount:            order.RateBaseAmount,
+			RatePpnAmount:             order.RatePpnAmount,
+			RatePphAmount:             order.RatePphAmount,
+			PurchaseRequestDate:       order.PurchaseRequestDate,
+		})
 	}
 
 	return result, nil

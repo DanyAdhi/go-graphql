@@ -8,6 +8,7 @@ type Query {
   todos: [Todo!]!
   pets: [Pet!]!
   pet(id: Int!): Pet!
+  orders: [Orders!]!
 }
 
 type Mutation {
